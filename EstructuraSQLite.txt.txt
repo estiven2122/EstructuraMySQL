@@ -1,0 +1,65 @@
+cd c:\SQLite
+
+sqlite3 administracionCursos.db
+
+ create table Materias (id integer primary key autoincrement, Nombre text not null unique, Elim
+inado integer);
+
+ create table Asignatura (id integer primary key autoincrement,
+   ...> Nombre text not null,
+   ...> Materia integer not null,
+   ...> Eliminado integer,
+   ...> foreign key (Materia) references Materias(id));
+
+ create table Docentes (id integer primary key autoincrement,
+   ...> Nombre text not null,
+   ...> Apellido text not null,
+   ...> Documento text not null unique,
+   ...> Fnac text not null,
+   ...> Edad intenger not null,
+   ...> Grado integer not null,
+   ...> Fingreso integer not null,
+   ...> Eliminado integer);
+
+ create table Cursos (id integer primary key autoincrement,
+   ...> Nombre text not null,
+   ...> Docente integer not null,
+   ...> Puntaje integer not null,
+   ...> Asignatura integer not null,
+   ...> Edicion integer,
+   ...> Anno integer not null,
+   ...> Eliminado integer,
+   ...> Estado text,
+   ...> foreign key (Docente) references Docentes(id),
+   ...> foreign key (Asignatura) references Asignatura(id));
+
+ create table Examenes (id integer primary key autoincrement,
+   ...> Curso integer not null,
+   ...> Fecha text not null,
+   ...> Eliminado integer,
+   ...> foreign key (Curso) references Cursos(id));
+
+ create table Estudiantes (id integer primary key autoincrement,
+   ...> Nombre text not null,
+   ...> Apellido text not null,
+   ...> Documento text not null,
+   ...> Fingreso text not null,
+   ...> Eliminado integer);
+
+ create table Inscripciones (id integer primary key autoincrement,
+   ...> Estudiante integer not null,
+   ...> Curso integer not null,
+   ...> Estado text not null,
+   ...> Nota text not null,
+   ...> Eliminado integer,
+   ...> foreign key (Estudiante) references Estudiantes(id),
+   ...> foreign key (Curso) references Cursos(id));
+
+ create table RendicionesExamen (id integer primary key autoincrement,
+   ...> Examen integer not null,
+   ...> Inscripcion integer not null,
+   ...> Nota text not null,
+   ...> Eliminado integer,
+   ...> foreign key (Examen) references Examenes(id),
+   ...> foreign key (Inscripcion) references Inscripciones(id));
+
