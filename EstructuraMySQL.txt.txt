@@ -1,0 +1,52 @@
+create database AdministracionCursos;
+
+show databases;
+
+use AdministracionCursos;
+
+create table Materias (id int(11) not null auto_increment,
+    -> Nombre varchar(45) not null unique,
+    -> eliminado tinyint(4),
+    -> primary key (id));
+
+create table Asignatura (id int(11) not null auto_increment,
+    -> Nombre varchar(45) not null,
+    -> Materia int(11) not null,
+    -> Eliminado tinyint(4),
+    -> primary key (id),
+    -> foreign key (Materia) references Materias(id));
+
+create table Docentes (id int(11) not null auto_increment,
+    -> Nombre varchar(45) not null,
+    -> Apellido varchar(45) not null, Documento varchar(45) not null unique, Fnac date not null,
+    -> Edad int(11) not null, Grado int not null, Fingreso date not null, Eliminado tinyint(4),
+    -> primary key (id));
+
+ create table Cursos (id int(11) not null auto_increment, Nombre varchar(45) not null,
+    -> Docente int(11) not null, Puntaje int(11) not null, Asignatura int(11) not null, Edicion int(11
+), Anno int(11) not null, Eliminado tinyint(4), Estado varchar(45),
+    -> primary key (id),
+    -> foreign key (Docente) references Docentes (id),
+    -> foreign key (Asignatura) references Asignatura(id));
+
+create table Examenes (id int(11) not null auto_increment, Curso int(11) not null, Fecha Date not null, Eliminado tinyint(4),
+    -> primary key (id),
+    -> foreign key (Curso) references Cursos(id));
+
+create table Estudiantes (id int(11) not null auto_increment, Nombre varchar (45) not null, Ape
+llido varchar(45) not null, Documento varchar
+    -> (45), Fnacimiento date not null, Edad int(11) not null, Fingreso date not null, Eliminado tinyint(4),
+    -> primary key (id));
+
+create table Inscripciones (id int(11) not null auto_increment, Estudiante int(11) not null,
+    -> Curso int(11) not null, Estado varchar(45) not null, Nota smallint(6) not null,
+    -> Eliminado tinyint(4),
+    -> primary key (id),
+    -> foreign key (Estudiante) references Estudiantes(id),
+    -> foreign key (Curso) references Cursos(id));
+
+create table RendicionesExamen(id int(11) not null auto_increment, Examen int(11) not null,
+    -> Inscripcion int(11) not null, Nota smallint(6) not null, Eliminado tinyint(4),
+    -> primary key (id),
+    -> foreign key (Examen) references Examenes(id),
+    -> foreign key (Inscripcion) references Inscripciones(id));
